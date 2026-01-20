@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio | Gerbush</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f4f1;
+        --surface: #ffffff;
+        --text: #1f2937;
+        --muted: #5b6472;
+        --accent: #7c5d43;
+        --accent-dark: #5a3f2c;
+        --border: #e3ded8;
+        --shadow: 0 18px 40px rgba(31, 41, 55, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: #fffaf4;
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      
+      a:hover {
+        color: black;
+        text-decoration: underline;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 16px 30px rgba(31, 41, 55, 0.08);
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(12px);
+        background: rgba(246, 244, 241, 0.86);
+        border-bottom: 1px solid rgba(227, 222, 216, 0.7);
+      }
+
+      .nav-bar {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.95rem;
+        color: var(--accent-dark);
+      }
+
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-weight: 500;
+      }
+
+      nav a {
+        padding: 10px 14px;
+        border-radius: 999px;
+        transition: background 0.2s ease, color 0.2s ease;
+        color: var(--muted);
+      }
+
+      nav a:hover,
+      nav a:focus-visible {
+        background: rgba(124, 93, 67, 0.12);
+        color: var(--accent-dark);
+        outline: none;
+        text-decoration: none;
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+      }
+
+      section {
+        display: none;
+        background: var(--surface);
+        border-radius: 28px;
+        padding: 48px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+
+      #experience {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+      }
+
+      #experience:target {
+        display: grid;
+        gap: 32px;
+      }
+
+      .section-card {
+        background: var(--surface);
+        border-radius: 28px;
+        padding: 48px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+
+      main:has(section:target) section {
+        display: none;
+      }
+
+      main:has(section:target) section:target {
+        display: block;
+      }
+
+      main:not(:has(section:target)) #about {
+        display: block;
+      }
+
+      .section-header {
+        display: grid;
+        gap: 18px;
+        margin-bottom: 32px;
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 4vw, 3.4rem);
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 3vw, 2.4rem);
+      }
+
+      h3 {
+        font-size: 1.2rem;
+        color: var(--accent-dark);
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .about-intro {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        align-items: center;
+      }
+
+      .about-intro img {
+        width: 100%;
+        border-radius: 20px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 28px;
+      }
+
+      .grid-two {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+
+      .grid-three {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      .card,
+      .project-card {
+        padding: 24px;
+        border-radius: 20px;
+        background: #fbfaf9;
+        border: 1px solid var(--border);
+      }
+
+      .contact-card {
+        text-align: center;
+      }
+
+      .contact-card h3 {
+        padding-bottom: 5px;
+      }
+
+      .experience-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .experience-item {
+        padding: 22px 24px;
+        border-radius: 18px;
+        background: #fbfaf9;
+        border: 1px solid var(--border);
+        display: grid;
+        gap: 12px;
+        transition: transform 160ms ease, box-shadow 160ms ease,
+          border-color 160ms ease;
+        will-change: transform;
+      }
+
+      .experience-item[data-tier="primary"] {
+        background: linear-gradient(180deg, #fffdfb 0%, #fbfaf9 100%);
+        border-color: rgba(124, 93, 67, 0.28);
+      }
+
+      .experience-item[data-tier="secondary"] {
+        opacity: 0.96;
+      }
+
+      .experience-item[data-tier="legacy"] {
+        opacity: 0.92;
+      }
+
+      .experience-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: baseline;
+      }
+
+      .experience-meta h3 {
+        margin: 0;
+      }
+
+      .experience-dates {
+        font-weight: 600;
+        color: var(--accent);
+        font-size: 0.9rem;
+      }
+
+      .experience-item--B .experience-bullets {
+        margin-right: 10%;
+        padding-left: 18px;
+        gap: 8px;
+      }
+
+      .experience-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 6px;
+      }
+
+      .section-subtitle {
+        margin-top: 36px;
+        margin-bottom: 20px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .section-card .section-subtitle {
+        margin-top: 0;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .pill {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(124, 93, 67, 0.12);
+        color: var(--accent-dark);
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+
+      .education-grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .education-card {
+        display: grid;
+        gap: 8px;
+        padding: 26px;
+        border-radius: 20px;
+        background: #fbfaf9;
+        border: 1px solid var(--border);
+      }
+
+      .education-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .education-degree {
+        font-weight: 600;
+        color: var(--accent-dark);
+      }
+
+      .education-meta {
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .education-detail {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+      }
+
+      .coursework-list {
+        margin: 0;
+        padding-left: 18px;
+        display: grid;
+        gap: 8px;
+        color: var(--muted);
+      }
+
+      .icon-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        color: var(--accent-dark);
+      }
+
+      .icon-link svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+      }
+
+      footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 720px) {
+        section {
+          padding: 32px;
+        }
+
+        .section-card {
+          padding: 32px;
+        }
+
+        .nav-bar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav ul {
+          flex-wrap: wrap;
+        }
+
+        .about-intro {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav-bar">
+        <div class="brand">Glen Gerbush</div>
+        <nav aria-label="Primary">
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="about">
+        <div class="section-header">
+          <span class="eyebrow">About</span>
+          <h1>Hi, I'm Glen's website!</h1>
+          <div class="about-intro">
+            <p>
+              Glen started his career in 3D printing, but after spending more and
+              more time tinkering with firmware and printer hosts he moved into
+              software development. First in contract roles, then full time at
+              Zippity, as part of a two person dev team. From there he spent 4
+              years at Amazon working to internalize their HR software. He then
+              left, intending to renovate his home full time, but ended up
+              contracting with local businesses to digitize and automate back of
+              house workflows. With the home renovation winding down and running
+              out of local businesses to help, he's looking for a new full time
+              role.
+            </p>
+            <img
+              src="./images/profile.jpg"
+              alt="Glen and his closest companion."
+              title="Glen and his closest companion."
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="section-header">
+          <span class="eyebrow">Projects</span>
+          <div class="project-card">
+            <h2>Current project</h2>
+            <div class="grid grid-two" style="margin-top: 28px;">
+              <p>
+                I'm launching an app for a client who wanted an E2EE cross platform app, that wouldn't require an app store. I chose to make a PWA and have been given permission to post a barebones
+                template on my <a href="https://github.com/glengerbush/NoAppStore">GitHub.</a>
+              </p>
+              <a href="https://github.com/glengerbush/NoAppStore"><img
+                src="./images/NoAppStore.webp"
+                alt="Image of locks around the text E2EE"
+                href="https://github.com/glengerbush/NoAppStore"
+                loading="lazy"
+              /></a>
+            </div>
+          </div>
+          <div class="project-card">
+            <h2>Home Renovation</h2>
+            <div class="grid grid-two" style="margin-top: 28px;">
+              <p>
+                My wife and I moved into a house in disrepair during COVID.
+                Contractors in our area were booked out for a couple years and
+                material prices were spiking. We decided to wait for materials
+                cost to come down and do the work ourselves.
+                <br /><br />
+                The renovation has taken our home down to the studs, and beyond, where the studs were rotted out. Suprisingly similar to
+                upgrading legacy software...
+              </p>
+              <img
+                src="./images/chimney_demolition.webp"
+                alt="After demolishing the chimney to the roofline."
+                title="After demolishing the chimney to the roofline."
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div class="project-card">
+            <h2>Dissectables</h2>
+            <div class="grid grid-two" style="margin-top: 28px;">
+              <p>
+                I was the principal investigator for an NSF research grant. We
+                were assessing the viability of producing surgical simulations
+                using inexpensive FFF printing methods.
+                <br /><br />
+                This required designing a printer that could easily swap out
+                large experimental extruders in order to print with cutting edge
+                filaments that were not useable by any off the shelf printers.
+                <br /><br />
+                This is when I learned that cadaver labs were not for me and
+                that hearts have tendons.
+              </p>
+              <img
+                src="./images/dissectable_model.webp"
+                alt="Dissecting our first dissectable model."
+                title="Dissecting our first dissectable model."
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div class="project-card">
+            <h2>OC3D</h2>
+            <div class="grid grid-two" style="margin-top: 28px;">
+              <p>
+                Aftering assisting several faculty members with 3D printing, I was invited to start a 3D
+                printing lab, where I set up printers, held open hours, and ran
+                a winter study. The students built even more printers, including
+                a ceramic printer, along with too many other projects to name.
+              </p>
+              <img
+                src="./images/quadcopter_rostock.webp"
+                alt="Arm of a quadcopter printed by a delta style printer for a student project."
+                title="Arm of a quadcopter printed by a delta style printer for a student project."
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <div class="section-card">
+          <div class="section-header">
+            <span class="eyebrow">Experience</span>
+            <h2>Relevant work history.</h2>
+            <p>
+              A summary of Glen's career.
+            </p>
+          </div>
+          <div class="experience-stack">
+            <div class="experience-item experience-item--B" data-tier="primary">
+              <div class="experience-meta">
+                <h3>Self-Employed Contractor</h3>
+                <span class="experience-dates">2023 — Present</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>Automating back of house workflows for local businesses</li>
+                <li>Developed AI chat feature for iOS app</li>
+                <li>Managing 4 engineers across 4 projects</li>
+              </ul>
+
+              <div class="experience-tags">
+                <span class="pill">Javascript</span>
+                <span class="pill">Python</span>
+                <span class="pill">React Native</span>
+                <span class="pill">ElevenLabs</span>
+                <span class="pill">OpenAI Whisper API</span>
+              </div>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="primary">
+              <div class="experience-meta">
+                <h3>Software Development Engineer II · Amazon</h3>
+                <span class="experience-dates">2021 — 2023</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>
+                  Led design, build, and launch of front end apps for manager and
+                  candidate experiences to standardize internal transfer process,
+                  globally
+                </li>
+                <li>Assisted and mentored SDEs overseeing backend APIs and DB</li>
+                <li>Set up E2E testing and metrics dashboard</li>
+              </ul>
+
+              <div class="experience-tags">
+                <span class="pill">React</span>
+                <span class="pill">Typescript</span>
+                <span class="pill">Jest</span>
+                <span class="pill">Cypress</span>
+                <span class="pill">Kotlin</span>
+                <span class="pill">API Gateway</span>
+                <span class="pill">Route53</span>
+                <span class="pill">Lambda</span>
+                <span class="pill">DynamoDB</span>
+                <span class="pill">CDK</span>
+                <span class="pill">Cloudwatch</span>
+                <span class="pill">Docker</span>
+              </div>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="primary">
+              <div class="experience-meta">
+                <h3>Software Development Engineer I · Amazon</h3>
+                <span class="experience-dates">2019 — 2021</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>
+                  Within first two months of hire, rewrote and patched an internal
+                  permissions application
+                </li>
+                <li>
+                  Proposed new roadmap for permissions application, which was
+                  accepted and assigned to another team
+                </li>
+                <li>
+                  Managed that team in Hyderabad to facilitate upgrade and handoff
+                  of the application
+                </li>
+                <li>Built/managed APIs</li>
+                <li>
+                  The APIs vended data, including PII and highly confidential
+                  data, for over 2MM employees, to hundreds of internal
+                  applications globally
+                </li>
+              </ul>
+
+              <div class="experience-tags">
+                <span class="pill">React</span>
+                <span class="pill">Typescript</span>
+                <span class="pill">Ruby on Rails</span>
+                <span class="pill">Java</span>
+                <span class="pill">Dagger</span>
+                <span class="pill">Lambda</span>
+                <span class="pill">SQS</span>
+                <span class="pill">SNS</span>
+                <span class="pill">DynamoDB</span>
+                <span class="pill">ElasticSearch</span>
+              </div>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="secondary">
+              <div class="experience-meta">
+                <h3>Software Developer · Zippity</h3>
+                <span class="experience-dates">2018 — 2019</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>One of two developers managing all company applications</li>
+                <li>
+                  Launched 4 apps: Internal admin dashboard, Technician app,
+                  Customer app, and Kiosk app
+                </li>
+              </ul>
+
+              <div class="experience-tags">
+                <span class="pill">React</span>
+                <span class="pill">Redux</span>
+                <span class="pill">Python</span>
+                <span class="pill">Flask</span>
+                <span class="pill">SQLAlchemy</span>
+                <span class="pill">Postgres</span>
+                <span class="pill">EBS</span>
+                <span class="pill">EC2</span>
+              </div>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="secondary">
+              <div class="experience-meta">
+                <h3>Development Contractor · Embryo Options</h3>
+                <span class="experience-dates">2018 · Fall</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>
+                  Set up new PCI compliant payment processor and built new payment
+                  workflow
+                </li>
+              </ul>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="secondary">
+              <div class="experience-meta">
+                <h3>Systems Contractor · The Academy Group</h3>
+                <span class="experience-dates">2018 · Summer</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>
+                  Built web portal for staff, teachers, students, and parents
+                  using Flask framework
+                </li>
+                <li>Setup Postgres DB and built Flask REST API, managed in AWS</li>
+                <li>Oversaw contractors writing mobile apps</li>
+              </ul>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="legacy">
+              <div class="experience-meta">
+                <h3>Founder &amp; Principal Investigator · Dissectables</h3>
+                <span class="experience-dates">2014 — 2017</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>Led research in application of FFF printing in medical education</li>
+                <li>Designed, built and maintained FFF printers</li>
+                <li>Managed team of designers, engineers, and scientists</li>
+              </ul>
+            </div>
+
+            <div class="experience-item experience-item--B" data-tier="legacy">
+              <div class="experience-meta">
+                <h3>3D Printing Associate · Oberlin College 3D Printlab</h3>
+                <span class="experience-dates">2013 — 2014</span>
+              </div>
+
+              <ul class="experience-bullets">
+                <li>
+                  Led creation of printlab, serving student body and local
+                  community
+                </li>
+                <li>Taught CAD and prototyping classes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-subtitle">
+            <h3>Skills</h3>
+            <p>
+              Focused on technical depth, scalable systems, and collaborative
+              engineering practices.
+            </p>
+          </div>
+          <div class="grid grid-two">
+            <div class="card">
+              <h3>Programming Languages</h3>
+              <div class="pill-row" style="margin-top: 12px;">
+                <span class="pill">JavaScript</span>
+                <span class="pill">TypeScript</span>
+                <span class="pill">Python</span>
+                <span class="pill">Kotlin</span>
+                <span class="pill">Java</span>
+                <span class="pill">SQL</span>
+                <span class="pill">HTML</span>
+                <span class="pill">CSS</span>
+                <span class="pill">SCSS</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Cloud Infrastructure</h3>
+              <div class="pill-row" style="margin-top: 12px;">
+                <span class="pill">CDK</span>
+                <span class="pill">Lamba</span>
+                <span class="pill">Cloudwatch</span>
+                <span class="pill">API Gateway</span>
+                <span class="pill">Route 53</span>
+                <span class="pill">DynamoDB</span>
+                <span class="pill">Postgres</span>
+                <span class="pill">ElasticSearch</span>
+                <span class="pill">SNS/SQS</span>
+                <span class="pill">EC2</span>
+                <span class="pill">Docker</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Software Engineering Practices</h3>
+              <div class="pill-row" style="margin-top: 12px;">
+                <span class="pill">REST APIs</span>
+                <span class="pill">Microservices</span>
+                <span class="pill">System Design</span>
+                <span class="pill">CI/CD</span>
+                <span class="pill">Infrastructure as Code</span>
+                <span class="pill">Agile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-subtitle">
+            <h3>Education</h3>
+            <p>
+              Academic foundation with focused coursework in computer science and
+              mobile development.
+            </p>
+          </div>
+          <div class="education-grid">
+            <div class="education-card">
+              <div class="education-header">
+                <div>
+                  <h3>Oberlin College</h3>
+                  <div class="education-degree">
+                    Bachelor of Arts
+                  </div>
+                </div>
+                <div class="education-meta">2008 — 2012</div>
+              </div>
+              <div class="education-detail">
+                <span><strong>Major:</strong> Latin Language &amp; Literature</span>
+                <span><strong>Minor:</strong> Chemistry</span>
+              </div>
+            </div>
+            <div class="education-card">
+              <div class="education-header">
+                <div>
+                  <h3>Relevant Coursework</h3>
+                </div>
+              </div>
+              <div class="education-detail">
+              <div class="education-degree">
+                    Oberlin College
+                  </div>
+                <ul class="coursework-list">
+                  <li>Principles of Computer Science I (Java)</li>
+                  <li>Principles of Computer Science II (Java)</li>
+                </ul>
+              </div>
+              <div class="education-detail">
+              <div class="education-degree">
+                    Udacity
+                  </div>
+                <ul class="coursework-list">
+                  <li>Developing Android Apps</li>
+                  <li>Android Fundamentals</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="./images/Gerbush.pdf" download="">
+          <div class="section-card" style="text-align: center;">
+            <h3>Download a copy of my résumé.</h3>
+          </div>
+        </a>
+      </section>
+
+      <section id="contact">
+        <div class="section-header">
+          <span class="eyebrow">Contact</span>
+          <h2>Let's build something together.</h2>
+        </div>
+        <div class="grid grid-three">
+          <div class="card contact-card">
+            <h3>Email</h3>
+            <a href="mailto:hello@glen.industries">hello@glen.industries</a>
+          </div>
+          <div class="card contact-card">
+            <h3>GitHub</h3>
+            <a
+              class="icon-link"
+              href="https://github.com/glengerbush"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M12 2C6.477 2 2 6.486 2 12.02c0 4.43 2.865 8.195 6.839 9.52.5.093.682-.218.682-.483 0-.237-.009-.868-.014-1.703-2.782.607-3.369-1.343-3.369-1.343-.454-1.159-1.109-1.468-1.109-1.468-.907-.62.069-.608.069-.608 1.003.071 1.531 1.036 1.531 1.036.892 1.53 2.341 1.088 2.91.832.091-.652.35-1.088.636-1.339-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.987 1.029-2.686-.103-.253-.446-1.271.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.203 2.397.1 2.65.64.699 1.028 1.593 1.028 2.686 0 3.848-2.338 4.695-4.566 4.943.36.31.681.92.681 1.856 0 1.339-.012 2.419-.012 2.747 0 .268.18.58.688.481A10.025 10.025 0 0 0 22 12.02C22 6.486 17.523 2 12 2z"
+                />
+              </svg>
+              <span>@glengerbush</span>
+            </a>
+          </div>
+          <div class="card contact-card">
+            <h3>LinkedIn</h3>
+            <a
+              class="icon-link"
+              href="https://www.linkedin.com/in/glen-gerbush/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M19 3A2 2 0 0 1 21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-.5 16.5v-5.3c0-2.8-1.5-4.1-3.5-4.1-1.6 0-2.3.9-2.7 1.5v-1.3H9.5v9.2h2.8v-5.1c0-1.4.3-2.7 2-2.7s1.9 1.6 1.9 2.8v5h2.8zM6.9 8.9c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm1.4 10.6V10.3H5.5v9.2h2.8z"
+                />
+              </svg>
+              <span>in/glen-gerbush</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      };
+
+      window.addEventListener("hashchange", () => {
+        requestAnimationFrame(scrollToTop);
+      });
+
+      window.addEventListener("DOMContentLoaded", () => {
+        if (window.location.hash) {
+          requestAnimationFrame(scrollToTop);
+        }
+      });
+    </script>
+  </body>
+</html>
