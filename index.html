@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <meta name="robots" content="noindex, nofollow">
+    <meta
+      name="description"
+      content="Glen is an exceptional staff level software engineer with over a decade of experience!!!"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Portfolio | Gerbush</title>
@@ -58,6 +62,15 @@
         background: rgba(246, 244, 241, 0.86);
         border-bottom: 1px solid rgba(227, 222, 216, 0.7);
       }
+      
+      header nav ul {
+        gap: clamp(0px, 1.5vw, 18px);
+      }
+
+      header nav a {
+        padding: 1vw clamp(0px, 4vw, 23px);
+        font-size: clamp(8px, 2vw, 16px);
+      }
 
       .nav-bar {
         max-width: 1100px;
@@ -66,7 +79,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 24px;
       }
 
       .brand {
@@ -75,6 +87,7 @@
         text-transform: uppercase;
         font-size: 0.95rem;
         color: var(--accent-dark);
+        font-size: clamp(8px, 2vw, 16px);
       }
 
       nav ul {
@@ -132,7 +145,6 @@
       .section-card {
         background: var(--surface);
         border-radius: 28px;
-        padding: 48px;
         box-shadow: var(--shadow);
         border: 1px solid var(--border);
       }
@@ -200,25 +212,20 @@
         border-radius: 20px;
       }
 
-      .grid {
-        display: grid;
-        gap: 28px;
-      }
-
-      .grid-two {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      }
-
-      .grid-three {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
-
       .card,
       .project-card {
         padding: 24px;
         border-radius: 20px;
         background: #fbfaf9;
         border: 1px solid var(--border);
+        max-width: 100%;
+      }
+      
+      .project-card img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 10; /* tweak if needed */
+        object-fit: cover;
       }
 
       .project-content {
@@ -397,29 +404,44 @@
           padding: 32px;
         }
 
+        section,
         .section-card {
-          padding: 32px;
+          padding: clamp(18px, 4vw, 48px);
         }
 
         .nav-bar {
           flex-direction: column;
-          align-items: flex-start;
-        }
-
-        nav ul {
-          flex-wrap: wrap;
         }
 
         .about-intro {
           grid-template-columns: 1fr;
         }
       }
+      
+      .grid {
+        display: grid;
+        gap: 28px;
+      }
+
+      .grid-two {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+      
+      @media (max-width: 720px) {
+        .grid-two { grid-template-columns: 1fr; } /* optional but very robust */
+      }
+
+      .grid-three {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+      }
+      
+      .grid > * { min-width: 0; }
     </style>
   </head>
   <body>
     <header>
       <div class="nav-bar">
-        <div class="brand">Glen Gerbush</div>
+        <a href="#about"><div class="brand">Glen Gerbush</div></a>
         <nav aria-label="Primary">
           <ul>
             <li><a href="#about">About</a></li>
@@ -436,9 +458,10 @@
         <div class="section-header">
           <span class="eyebrow">About</span>
           <h1>Hi, I'm Glen's website!</h1>
+          <h3>Glen is a former Amazon SWE with 10+ years of experience</h3>
           <div class="about-intro">
-            <p>
-              Glen started his career in 3D printing, but after spending more and
+              <p> 
+              He started his career in 3D printing, but after spending more and
               more time tinkering with firmware and printer hosts he moved into
               software development. First in contract roles, then full time at
               Zippity, as part of a two person dev team. From there he spent 4
@@ -466,8 +489,8 @@
               <div>
                 <h2 class="project-header">Current Project</h2>
                 <p>
-                I'm launching an app for a client who wanted an E2EE cross platform app, that wouldn't require an app store. I chose to make a PWA and have been given permission to post a barebones
-                template on my <a href="https://github.com/glengerbush/NoAppStore">GitHub.</a>
+                Glen launched an app for a client who wanted an E2EE cross platform app, that wouldn't require an app store. He chose to make a PWA and has been given permission to post a barebones
+                template on his <a href="https://github.com/glengerbush/NoAppStore">GitHub.</a>
                 </p>
               </div>
               <a href="https://github.com/glengerbush/NoAppStore"><img
@@ -483,12 +506,12 @@
               <div>
                 <h2 class="project-header">Home Renovation</h2>
                 <p>
-                My wife and I moved into a house in disrepair during COVID.
-                Contractors in our area were booked out for a couple years and
-                material prices were spiking. We decided to wait for materials
+                Glen and his wife moved into a house in disrepair during COVID.
+                Contractors in the area were booked out for a couple years and
+                material prices were spiking. They decided to wait for materials
                 cost to come down and do the work ourselves.
                 <br /><br />
-                The renovation has taken our home down to the studs, and beyond, where the studs were rotted out. Suprisingly similar to
+                The renovation has taken the home down to the studs, and beyond, where the studs were rotted out. Surprisingly similar to
                 upgrading legacy software...
                 </p>
               </div>  
@@ -505,7 +528,7 @@
              <div>
                 <h2 class="project-header">Dissectables</h2>
                 <p>
-                I was the principal investigator for an NSF research grant. We
+                Glen was the principal investigator for an NSF research grant. Glen and his team
                 were assessing the viability of producing surgical simulations
                 using inexpensive FFF printing methods.
                 <br /><br />
@@ -513,8 +536,7 @@
                 large experimental extruders in order to print with cutting edge
                 filaments that were not useable by any off the shelf printers.
                 <br /><br />
-                This is when I learned that cadaver labs were not for me and
-                that hearts have tendons.
+                This is when he learned that hearts have tendons, and that he did not have the constitution to be in cadaver labs.
                 </p>
               </div>
               <img
@@ -530,8 +552,8 @@
               <div>
                 <h2 class="project-header">OC3D</h2>
                 <p>
-                Aftering assisting several faculty members with 3D printing, I was invited to start a 3D
-                printing lab, where I set up printers, held open hours, and ran
+                After assisting several faculty members with 3D printing, Glen was invited to start a 3D
+                printing lab, where he set up printers, held open hours, and ran
                 a winter study. The students built even more printers, including
                 a ceramic printer, along with too many other projects to name.
                 </p>
@@ -740,10 +762,6 @@
         <div class="section-card">
           <div class="section-subtitle">
             <h3>Skills</h3>
-            <p>
-              Focused on technical depth, scalable systems, and collaborative
-              engineering practices.
-            </p>
           </div>
           <div class="grid grid-two">
             <div class="card">
@@ -851,12 +869,12 @@
       <section id="contact">
         <div class="section-header">
           <span class="eyebrow">Contact</span>
-          <h2>Let's build something together.</h2>
+          <h2>Build something with Glen!</h2>
         </div>
         <div class="grid grid-three">
           <div class="card contact-card">
             <h3>Email</h3>
-            <a href="mailto:hello@glen.industries">hello@glen.industries</a>
+            <a class="icon-link" href="mailto:hello@glen.industries">hello@glen.industries</a>
           </div>
           <div class="card contact-card">
             <h3>GitHub</h3>
