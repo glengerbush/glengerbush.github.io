@@ -9,17 +9,75 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Portfolio | Gerbush</title>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "light" || stored === "dark") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <style>
       :root {
-        color-scheme: light;
-        --bg: #f6f4f1;
-        --surface: #ffffff;
-        --text: #1f2937;
-        --muted: #5b6472;
-        --accent: #7c5d43;
-        --accent-dark: #5a3f2c;
-        --border: #e3ded8;
+        color-scheme: light dark;
+        /* Everforest Light (Medium Contrast) */
+        --bg: #efebd4;
+        --bg-rgb: 239, 235, 212;
+        --surface: #fdf6e3;
+        --card-bg: #f4f0d9;
+        --text: #5c6a72;
+        --muted: #708089;
+        --accent: #8da101;
+        --accent-rgb: 141, 161, 1;
+        --accent-dark: #5f7509;
+        --border: #e0dcc7;
+        --border-rgb: 224, 220, 199;
         --shadow: 0 18px 40px rgba(31, 41, 55, 0.12);
+        --shadow-img: 0 16px 30px rgba(31, 41, 55, 0.08);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          /* Everforest Dark (Medium Contrast) */
+          --bg: #232a2e;
+          --bg-rgb: 35, 42, 46;
+          --surface: #2d353b;
+          --card-bg: #343f44;
+          --text: #d3c6aa;
+          --muted: #859289;
+          --accent: #a7c080;
+          --accent-rgb: 167, 192, 128;
+          --accent-dark: #83c092;
+          --border: #475258;
+          --border-rgb: 71, 82, 88;
+          --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+          --shadow-img: 0 18px 30px rgba(0, 0, 0, 0.35);
+        }
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        /* Everforest Dark (Medium Contrast) */
+        --bg: #232a2e;
+        --bg-rgb: 35, 42, 46;
+        --surface: #2d353b;
+        --card-bg: #343f44;
+        --text: #d3c6aa;
+        --muted: #859289;
+        --accent: #a7c080;
+        --accent-rgb: 167, 192, 128;
+        --accent-dark: #83c092;
+        --border: #475258;
+        --border-rgb: 71, 82, 88;
+        --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+        --shadow-img: 0 18px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      :root[data-theme="light"] {
+        color-scheme: light;
       }
 
       * {
@@ -33,9 +91,10 @@
       body {
         margin: 0;
         font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-        background: #fffaf4;
+        background: var(--bg);
         color: var(--text);
         line-height: 1.6;
+        transition: background-color 0.25s ease, color 0.25s ease;
       }
 
       a {
@@ -43,9 +102,9 @@
         text-decoration: none;
         font-weight: 600;
       }
-      
+
       a:hover {
-        color: black;
+        color: var(--accent-dark);
         text-decoration: underline;
       }
 
@@ -55,7 +114,7 @@
         display: block;
         border-radius: 16px;
         border: 1px solid var(--border);
-        box-shadow: 0 16px 30px rgba(31, 41, 55, 0.08);
+        box-shadow: var(--shadow-img);
       }
 
       header {
@@ -63,9 +122,10 @@
         top: 0;
         z-index: 10;
         backdrop-filter: blur(12px);
-        background: rgba(246, 244, 241, 0.86);
-        border-bottom: 1px solid rgba(227, 222, 216, 0.7);
+        background: rgba(var(--bg-rgb), 0.86);
+        border-bottom: 1px solid rgba(var(--border-rgb), 0.7);
         margin-bottom: 15px;
+        transition: background-color 0.25s ease, border-color 0.25s ease;
       }
       
       header nav ul {
@@ -83,7 +143,11 @@
         padding: 20px 24px;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        gap: clamp(8px, 2vw, 20px);
+      }
+
+      .primary-nav {
+        margin-left: -10px;
       }
 
       .brand {
@@ -113,11 +177,75 @@
       }
 
       nav a:hover,
-      nav a:focus-visible {
-        background: rgba(124, 93, 67, 0.12);
+      nav a:focus-visible,
+      body:not(:has(section:target)) nav a[href="#about"],
+      body:has(#about:target) nav a[href="#about"],
+      body:has(#projects:target) nav a[href="#projects"],
+      body:has(#experience:target) nav a[href="#experience"],
+      body:has(#contact:target) nav a[href="#contact"] {
+        background: rgba(var(--accent-rgb), 0.12);
         color: var(--accent-dark);
         outline: none;
         text-decoration: none;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex: none;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        position: relative;
+        transition: background-color 0.2s ease, color 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .theme-toggle:hover,
+      .theme-toggle:focus-visible {
+        background: rgba(var(--accent-rgb), 0.12);
+        color: var(--accent-dark);
+        outline: none;
+      }
+
+      .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .theme-toggle .icon-sun {
+        display: none;
+      }
+
+      .theme-toggle .icon-moon {
+        display: block;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+          display: block;
+        }
+        :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+          display: none;
+        }
+      }
+
+      :root[data-theme="dark"] .theme-toggle .icon-sun {
+        display: block;
+      }
+
+      :root[data-theme="dark"] .theme-toggle .icon-moon {
+        display: none;
       }
 
       main {
@@ -133,6 +261,8 @@
         padding: 48px;
         box-shadow: var(--shadow);
         border: 1px solid var(--border);
+        transition: background-color 0.25s ease, border-color 0.25s ease,
+          box-shadow 0.25s ease;
       }
 
       #experience {
@@ -222,9 +352,10 @@
       .project-card {
         padding: 24px;
         border-radius: 20px;
-        background: #fbfaf9;
+        background: var(--card-bg);
         border: 1px solid var(--border);
         max-width: 100%;
+        transition: background-color 0.25s ease, border-color 0.25s ease;
       }
       
       .project-card img {
@@ -259,18 +390,18 @@
       .experience-item {
         padding: 22px 24px;
         border-radius: 18px;
-        background: #fbfaf9;
+        background: var(--card-bg);
         border: 1px solid var(--border);
         display: grid;
         gap: 12px;
         transition: transform 160ms ease, box-shadow 160ms ease,
-          border-color 160ms ease;
+          border-color 160ms ease, background-color 0.25s ease;
         will-change: transform;
       }
 
       .experience-item[data-tier="primary"] {
-        background: linear-gradient(180deg, #fffdfb 0%, #fbfaf9 100%);
-        border-color: rgba(124, 93, 67, 0.28);
+        background: linear-gradient(180deg, var(--surface) 0%, var(--card-bg) 100%);
+        border-color: rgba(var(--accent-rgb), 0.28);
       }
 
       .experience-item[data-tier="secondary"] {
@@ -332,10 +463,11 @@
       .pill {
         padding: 8px 14px;
         border-radius: 999px;
-        background: rgba(124, 93, 67, 0.12);
+        background: rgba(var(--accent-rgb), 0.12);
         color: var(--accent-dark);
         font-weight: 600;
         font-size: 0.85rem;
+        transition: background-color 0.25s ease;
       }
 
       .education-grid {
@@ -348,8 +480,9 @@
         gap: 8px;
         padding: 26px;
         border-radius: 20px;
-        background: #fbfaf9;
+        background: var(--card-bg);
         border: 1px solid var(--border);
+        transition: background-color 0.25s ease, border-color 0.25s ease;
       }
 
       .education-header {
@@ -412,7 +545,32 @@
         }
 
         .nav-bar {
-          flex-direction: column;
+          flex-wrap: wrap;
+        }
+
+        .primary-nav {
+          order: 3;
+          flex-basis: 100%;
+          width: 100%;
+        }
+
+        .primary-nav ul {
+          row-gap: 6px;
+        }
+
+        .theme-toggle {
+          order: 2;
+          margin-left: auto;
+          top: -5px;
+        }
+
+        .brand,
+        header nav a {
+          font-size: 1rem;
+        }
+
+        header nav a {
+          padding: 8px 10px;
         }
 
         .about-intro {
@@ -444,7 +602,7 @@
     <header>
       <div class="nav-bar">
         <a href="#about"><div class="brand">Glen Gerbush</div></a>
-        <nav aria-label="Primary">
+        <nav class="primary-nav" aria-label="Primary">
           <ul>
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Projects</a></li>
@@ -452,6 +610,28 @@
             <li><a href="#contact">Contact</a></li>
           </ul>
         </nav>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle light and dark theme"
+          title="Toggle light and dark theme"
+        >
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
       </div>
     </header>
 
@@ -460,7 +640,7 @@
         <div class="section-header">
           <span class="eyebrow">About</span>
           <h1>Hi, I'm Glen's website!</h1>
-          <h3>Glen is a former Amazon SWE with 10+ years of experience</h3>
+          <h3>Glen is a former Amazon SWE with 10+ years of professional experience</h3>
           <div class="about-intro">
               <p> 
               He started his career in 3D printing, but after spending more and
@@ -475,7 +655,7 @@
               role.
             </p>
             <img
-              src="./assets/profile.jpg"
+              src="./assets/profile.webp"
               alt="Glen and his closest companion."
               title="Glen and his closest companion."
             />
@@ -489,7 +669,68 @@
           <div class="project-card">
             <div class="grid grid-two project-content">
               <div>
-                <h2 class="project-header">Current Project</h2>
+                <h2 class="project-header">Personal Email Archive</h2>
+                <p>
+                Glen forked Open Archiver, an open-source email archiving platform geared toward compliance, and reworked it into a desktop app geared toward personal use. It's lighter weight, and meant to make it easy move emails out of the cloud and out of mail clients with poor searchability. It downloads and sanitizes remote content, allowing emails to render correctly without relying on external resources that may shutdown.
+                <br /><br />
+                Instead of running on docker, it's a single Rust binary that runs the Tauri v2 desktop app and the backend engine. The frontend is SvelteKit, and the DB is SQLite with FTS5.
+                  <br /><br />
+                Check out the repo on
+                <a href="https://github.com/glengerbush/PEA">GitHub.</a>
+                </p>
+              </div>
+              <a href="https://github.com/glengerbush/PEA"><img
+                src="./assets/PEA.webp"
+                alt="Personal Email Archive light and dark mode screenshots"
+                loading="lazy"
+              /></a>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="grid grid-two project-content">
+              <div>
+                <h2 class="project-header">EvolvTrack</h2>
+                <p>
+                EvolvTrack is an installable PWA Glen built for tracking GLP1 and GIP medications and keeping weight, medication, and wellness trends in one
+                dashboard. App can sync using E2EE or be used completely offline. It uses Svelte + IndexedDB via Dexie for running locally and Supabase for cloud sync. The input tables offer a spreadsheet-like editing with accessibility in mind. If you're a GLP1 company, Glen would be a huge asset.
+                <br /><br />
+                Check out the
+                <a href="https://evolvtrack.com/demo">live demo.</a>
+                </p>
+              </div>
+              <a href="https://evolvtrack.com/demo"><img
+                src="./assets/EvolvTrack.webp"
+                alt="EvolvTrack logo"
+                loading="lazy"
+              /></a>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="grid grid-two project-content">
+              <div>
+                <h2 class="project-header">treeMap</h2>
+                <p>
+                Every sign Glen planted next to a tree in his yard got destroyed by nature, so he built a local-first
+                yard map. Upload an aerial photo of the yard, then mark paths, landmarks, and tree locations
+                with notes on each.
+                <br /><br />
+                It's self-hostable, runs on Node's built-in SQLite, and ships with a one-line systemd/nginx installer
+                for running it privately on a home network.
+                <br /><br />
+                <a href="https://github.com/glengerbush/treeMap">Source on GitHub.</a>
+                </p>
+              </div>
+              <a href="https://github.com/glengerbush/treeMap"><img
+                src="./assets/treeMapper.webp"
+                alt="Screenshot of the treeMap yard planning app"
+                loading="lazy"
+              /></a>
+            </div>
+          </div>
+          <div class="project-card">
+            <div class="grid grid-two project-content">
+              <div>
+                <h2 class="project-header">NoAppStore</h2>
                 <p>
                 Glen launched an app for a client who wanted an E2EE cross platform app, that wouldn't require an app store. He chose to make a PWA and has been given permission to post a barebones
                 template on his <a href="https://github.com/glengerbush/NoAppStore">GitHub.</a>
@@ -534,11 +775,11 @@
                 were assessing the viability of producing surgical simulations
                 using inexpensive FFF printing methods.
                 <br /><br />
-                This required designing a printer that could easily swap out
+                This required he design a printer that could easily swap out
                 large experimental extruders in order to print with cutting edge
                 filaments that were not useable by any off the shelf printers.
-                <br /><br />
-                This is when he learned that hearts have tendons, and that he did not have the constitution to be in cadaver labs.
+
+                Glen spent most of his time modifying hardware, debugging firmware, testing new materials, but he also worked to translate medical training requirements into engineering constraints and this is when he learned that hearts have tendons, and that he did not have the constitution to be in a cadaver lab.
                 </p>
               </div>
               <img
@@ -554,10 +795,8 @@
               <div>
                 <h2 class="project-header">OC3D</h2>
                 <p>
-                After assisting several faculty members with 3D printing, Glen was invited to start a 3D
-                printing lab, where he set up printers, held open hours, and ran
-                a winter study. The students built even more printers, including
-                a ceramic printer, along with too many other projects to name.
+                After supporting faculty-led 3D printing projects at Oberlin and Case Western Reserve School of Medicine, Glen was asked to establish Oberlin’s first 3D printing lab. He founded the lab from the ground up, selecting and setting up printers, creating workflows for student and faculty use, holding open hours, and teaching a Winter Term course focused on hands-on fabrication.
+                Under his guidance, students moved from learning the basics of 3D printing to building printers of their own, including a ceramic printer alongside a wide range of experimental projects.
                 </p>
               </div>
               <img
@@ -583,39 +822,101 @@
           <div class="experience-stack">
             <div class="experience-item experience-item--B" data-tier="primary">
               <div class="experience-meta">
-                <h3>Self-Employed Contractor</h3>
-                <span class="experience-dates">2023 — Present</span>
+                <h3>Software Development Consultant</h3>
+                <span class="experience-dates">Jul 2023 — Present</span>
               </div>
 
               <ul class="experience-bullets">
-                <li>Automating back of house workflows for local businesses</li>
-                <li>Developed AI chat feature for iOS app</li>
-                <li>Managing 4 engineers across 4 projects</li>
+                <li>
+                  Built consumer-grade streaming UIs for real-time, token-by-token
+                  LLM responses across web and mobile, profiling and tuning
+                  client-side rendering for smooth output, and integrating
+                  multimodal pipelines (Whisper STT, ElevenLabs TTS) for
+                  conversational interfaces
+                </li>
+                <li>
+                  Designed LLM evaluation frameworks covering A/B prompt testing,
+                  regression checks, and error analysis to drive measurable
+                  improvements in response quality and reliability
+                </li>
+                <li>
+                  Set up frontend platform foundations across client projects:
+                  shared component patterns in React/TypeScript, Vite/Vitest
+                  build and test configuration, and CI/CD pipelines via GitHub
+                  Actions that took new projects from local dev to deployed in
+                  under a day
+                </li>
+                <li>
+                  Built a reusable SvelteKit PWA scaffold for a client
+                  engagement: Convex BFF backend, end-to-end encryption, Vitest
+                  test infrastructure, and an automated GitHub Actions pipeline
+                  deploying to GitHub Pages with custom domain routing
+                </li>
+                <li>
+                  Led 4 engineers across 4 concurrent client projects,
+                  translating business requirements into system designs and
+                  shipping production workflows end-to-end
+                </li>
               </ul>
 
               <div class="experience-tags">
-                <span class="pill">Javascript</span>
-                <span class="pill">Python</span>
+                <span class="pill">TypeScript</span>
+                <span class="pill">React</span>
                 <span class="pill">React Native</span>
+                <span class="pill">SvelteKit</span>
+                <span class="pill">Next.js</span>
+                <span class="pill">Node.js</span>
+                <span class="pill">Vite</span>
+                <span class="pill">Vitest</span>
+                <span class="pill">GitHub Actions</span>
+                <span class="pill">Python</span>
+                <span class="pill">OpenAI</span>
+                <span class="pill">LangChain</span>
+                <span class="pill">Whisper</span>
                 <span class="pill">ElevenLabs</span>
-                <span class="pill">OpenAI Whisper API</span>
+                <span class="pill">Convex</span>
+                <span class="pill">Supabase</span>
+                <span class="pill">AWS</span>
               </div>
             </div>
 
             <div class="experience-item experience-item--B" data-tier="primary">
               <div class="experience-meta">
                 <h3>Software Development Engineer II · Amazon</h3>
-                <span class="experience-dates">2021 — 2023</span>
+                <span class="experience-dates">Nov 2020 — Jul 2023</span>
               </div>
 
               <ul class="experience-bullets">
                 <li>
-                  Led design, build, and launch of front end apps for manager and
-                  candidate experiences to standardize internal transfer process,
-                  globally
+                  Led design and launch of the front-end platform for Amazon's
+                  internal mobility product, standardizing the global transfer
+                  process for 2M+ employees and increasing application
+                  completion rates from 10% to 90%
                 </li>
-                <li>Assisted and mentored SDEs overseeing backend APIs and DB</li>
-                <li>Set up E2E testing and metrics dashboard</li>
+                <li>
+                  Built an accessible React component library adopted by
+                  multiple teams, establishing shared UI patterns, prop
+                  interfaces, and documentation that reduced duplicated frontend
+                  work across the organization
+                </li>
+                <li>
+                  Partnered with the backend lead to shape the BFF API layer
+                  powering the React front-end, advising on SLAs, data shaping,
+                  and performance tradeoffs, and personally authoring several
+                  endpoints
+                </li>
+                <li>
+                  Established testing and observability foundations (Cypress
+                  E2E suites, Jest unit coverage, and CloudWatch metrics
+                  dashboards) that improved release confidence and reduced
+                  on-call response time
+                </li>
+                <li>
+                  Architected microservices on AWS (Lambda, API Gateway,
+                  DynamoDB) defined in CDK, enabling clean team splits as the
+                  project scaled; mentored engineers and drove cross-team
+                  system design decisions across the frontend/backend boundary
+                </li>
               </ul>
 
               <div class="experience-tags">
@@ -625,7 +926,6 @@
                 <span class="pill">Cypress</span>
                 <span class="pill">Kotlin</span>
                 <span class="pill">API Gateway</span>
-                <span class="pill">Route53</span>
                 <span class="pill">Lambda</span>
                 <span class="pill">DynamoDB</span>
                 <span class="pill">CDK</span>
@@ -637,27 +937,28 @@
             <div class="experience-item experience-item--B" data-tier="primary">
               <div class="experience-meta">
                 <h3>Software Development Engineer I · Amazon</h3>
-                <span class="experience-dates">2019 — 2021</span>
+                <span class="experience-dates">Sep 2019 — Nov 2020</span>
               </div>
 
               <ul class="experience-bullets">
                 <li>
-                  Within first two months of hire, rewrote and patched an internal
-                  permissions application
+                  Built and operated APIs vending PII and highly confidential HR
+                  data to hundreds of internal applications globally, including
+                  on-call ownership and production incident response
                 </li>
                 <li>
-                  Proposed new roadmap for permissions application, which was
-                  accepted and assigned to another team
+                  Delivered backend services for a multi-year enterprise
+                  migration of Amazon's internal HR system
                 </li>
                 <li>
-                  Managed that team in Hyderabad to facilitate upgrade and handoff
-                  of the application
+                  Within first two months of hire, rewrote and patched the
+                  internal permissions application; proposed a follow-on
+                  roadmap accepted and assigned to a sibling team
                 </li>
-                <li>Built/managed APIs</li>
                 <li>
-                  The APIs vended data, including PII and highly confidential
-                  data, for over 2MM employees, to hundreds of internal
-                  applications globally
+                  Led an offshore engineering team in Hyderabad through code
+                  review, pair programming, and roadmap planning to land a
+                  clean handoff of the critical permissions application
                 </li>
               </ul>
 
@@ -666,27 +967,33 @@
                 <span class="pill">Typescript</span>
                 <span class="pill">Ruby on Rails</span>
                 <span class="pill">Java</span>
-                <span class="pill">Dagger</span>
                 <span class="pill">Lambda</span>
                 <span class="pill">SQS</span>
                 <span class="pill">SNS</span>
                 <span class="pill">DynamoDB</span>
                 <span class="pill">ElasticSearch</span>
+                <span class="pill">Docker</span>
               </div>
             </div>
 
             <div class="experience-item experience-item--B" data-tier="secondary">
               <div class="experience-meta">
                 <h3>Software Developer · Zippity</h3>
-                <span class="experience-dates">2018 — 2019</span>
+                <span class="experience-dates">Dec 2018 — Sep 2019</span>
               </div>
 
               <ul class="experience-bullets">
-                <li>One of two developers managing all company applications</li>
                 <li>
-                  Launched 4 apps: Internal admin dashboard, Technician app,
-                  Customer app, and Kiosk app
+                  One of two engineers responsible for all production systems;
+                  launched four React applications: admin dashboard, technician
+                  app, customer app, and kiosk system
                 </li>
+                <li>
+                  Migrated backend infrastructure from Google Datastore to
+                  Heroku Postgres, improving query performance and
+                  maintainability
+                </li>
+                <li>Partnered with C-suite on product roadmap and system design decisions</li>
               </ul>
 
               <div class="experience-tags">
@@ -694,40 +1001,36 @@
                 <span class="pill">Redux</span>
                 <span class="pill">Python</span>
                 <span class="pill">Flask</span>
-                <span class="pill">SQLAlchemy</span>
                 <span class="pill">Postgres</span>
-                <span class="pill">EBS</span>
                 <span class="pill">EC2</span>
+                <span class="pill">EBS</span>
+                <span class="pill">Heroku</span>
               </div>
             </div>
 
             <div class="experience-item experience-item--B" data-tier="secondary">
               <div class="experience-meta">
                 <h3>Development Contractor · Embryo Options</h3>
-                <span class="experience-dates">2018 · Fall</span>
+                <span class="experience-dates">2018</span>
               </div>
 
               <ul class="experience-bullets">
-                <li>
-                  Set up new PCI compliant payment processor and built new payment
-                  workflow
-                </li>
+                <li>Built PCI-compliant payment processing workflows</li>
               </ul>
             </div>
 
             <div class="experience-item experience-item--B" data-tier="secondary">
               <div class="experience-meta">
                 <h3>Systems Contractor · The Academy Group</h3>
-                <span class="experience-dates">2018 · Summer</span>
+                <span class="experience-dates">2018</span>
               </div>
 
               <ul class="experience-bullets">
                 <li>
-                  Built web portal for staff, teachers, students, and parents
-                  using Flask framework
+                  Designed and deployed a Flask/Postgres web portal for
+                  students, faculty, and parents, backed by REST APIs on AWS
                 </li>
-                <li>Setup Postgres DB and built Flask REST API, managed in AWS</li>
-                <li>Oversaw contractors writing mobile apps</li>
+                <li>Oversaw contractors building mobile clients</li>
               </ul>
             </div>
 
@@ -738,22 +1041,31 @@
               </div>
 
               <ul class="experience-bullets">
-                <li>Led research in application of FFF printing in medical education</li>
-                <li>Designed, built and maintained FFF printers</li>
-                <li>Managed team of designers, engineers, and scientists</li>
+                <li>
+                  Principal investigator on an NSF/SBIR Phase I grant
+                  researching FFF printing, achieving proof of concept surgical
+                  simulation
+                </li>
+                <li>
+                  Designed and built the FFF 3D printers that supported the
+                  research
+                </li>
+                <li>Managed a multidisciplinary team of designers, engineers, and scientists</li>
               </ul>
             </div>
 
             <div class="experience-item experience-item--B" data-tier="legacy">
               <div class="experience-meta">
-                <h3>3D Printing Associate · Oberlin College 3D Printlab</h3>
+                <h3>Associate, Founder · Oberlin College 3D Printlab</h3>
                 <span class="experience-dates">2013 — 2014</span>
               </div>
 
               <ul class="experience-bullets">
                 <li>
-                  Led creation of printlab, serving student body and local
-                  community
+                  After consulting for several professors at Oberlin College
+                  and Case Western Reserve School of Medicine, was invited to
+                  lead the creation of Oberlin's first 3D printlab, serving the
+                  student body and local community
                 </li>
                 <li>Taught CAD and prototyping classes</li>
               </ul>
@@ -767,44 +1079,69 @@
           </div>
           <div class="grid grid-two">
             <div class="card">
-              <h3>Programming Languages</h3>
+              <h3>Frontend &amp; Platform</h3>
               <div class="pill-row" style="margin-top: 12px;">
-                <span class="pill">JavaScript</span>
+                <span class="pill">React</span>
                 <span class="pill">TypeScript</span>
-                <span class="pill">Python</span>
-                <span class="pill">Kotlin</span>
-                <span class="pill">Java</span>
-                <span class="pill">SQL</span>
-                <span class="pill">HTML</span>
-                <span class="pill">CSS</span>
-                <span class="pill">SCSS</span>
+                <span class="pill">Next.js</span>
+                <span class="pill">SvelteKit</span>
+                <span class="pill">Redux</span>
+                <span class="pill">React Native</span>
+                <span class="pill">Vite</span>
+                <span class="pill">Vitest</span>
+                <span class="pill">Cypress</span>
+                <span class="pill">Jest</span>
+                <span class="pill">Accessible Component Libraries</span>
+                <span class="pill">Design Systems</span>
               </div>
             </div>
             <div class="card">
-              <h3>Cloud Infrastructure</h3>
+              <h3>BFF &amp; Backend</h3>
               <div class="pill-row" style="margin-top: 12px;">
-                <span class="pill">CDK</span>
-                <span class="pill">Lamba</span>
-                <span class="pill">Cloudwatch</span>
+                <span class="pill">Node.js</span>
+                <span class="pill">BFF API Design</span>
+                <span class="pill">Convex</span>
+                <span class="pill">Supabase</span>
+                <span class="pill">AWS Lambda</span>
                 <span class="pill">API Gateway</span>
-                <span class="pill">Route 53</span>
-                <span class="pill">DynamoDB</span>
-                <span class="pill">Postgres</span>
-                <span class="pill">ElasticSearch</span>
-                <span class="pill">SNS/SQS</span>
-                <span class="pill">EC2</span>
-                <span class="pill">Docker</span>
+                <span class="pill">Python</span>
+                <span class="pill">Flask</span>
+                <span class="pill">Ruby on Rails</span>
+                <span class="pill">Java</span>
+                <span class="pill">Kotlin</span>
               </div>
             </div>
             <div class="card">
-              <h3>Software Engineering Practices</h3>
+              <h3>Infrastructure &amp; DevEx</h3>
               <div class="pill-row" style="margin-top: 12px;">
-                <span class="pill">REST APIs</span>
-                <span class="pill">Microservices</span>
-                <span class="pill">System Design</span>
-                <span class="pill">CI/CD</span>
-                <span class="pill">Infrastructure as Code</span>
-                <span class="pill">Agile</span>
+                <span class="pill">AWS CDK</span>
+                <span class="pill">GitHub Actions</span>
+                <span class="pill">Docker</span>
+                <span class="pill">CloudWatch</span>
+                <span class="pill">Build Tooling</span>
+                <span class="pill">E2E &amp; Unit Testing Infrastructure</span>
+                <span class="pill">Observability</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Databases</h3>
+              <div class="pill-row" style="margin-top: 12px;">
+                <span class="pill">DynamoDB</span>
+                <span class="pill">PostgreSQL</span>
+                <span class="pill">ElasticSearch</span>
+                <span class="pill">SQS/SNS</span>
+              </div>
+            </div>
+            <div class="card">
+              <h3>AI / LLMs</h3>
+              <div class="pill-row" style="margin-top: 12px;">
+                <span class="pill">OpenAI GPT</span>
+                <span class="pill">RAG Pipelines</span>
+                <span class="pill">Prompt Engineering</span>
+                <span class="pill">Streaming LLM Architectures</span>
+                <span class="pill">Evaluation Frameworks</span>
+                <span class="pill">Whisper</span>
+                <span class="pill">ElevenLabs</span>
               </div>
             </div>
           </div>
@@ -913,5 +1250,31 @@
         </div>
       </section>
     </main>
+    <script>
+      (function () {
+        var toggle = document.getElementById("theme-toggle");
+        if (!toggle) return;
+        toggle.addEventListener("click", function () {
+          var current =
+            document.documentElement.getAttribute("data-theme") ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+          var next = current === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          try {
+            localStorage.setItem("theme", next);
+          } catch (e) {}
+        });
+      })();
+
+      (function () {
+        function scrollToPageTop() {
+          window.scrollTo(0, 0);
+        }
+        window.addEventListener("hashchange", scrollToPageTop);
+        window.addEventListener("load", scrollToPageTop);
+      })();
+    </script>
   </body>
 </html>
