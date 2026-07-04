@@ -34,6 +34,8 @@
         --accent-dark: #5f7509;
         --border: #e0dcc7;
         --border-rgb: 224, 220, 199;
+        --link: #3a94c5;
+        --link-hover: #35a77c;
         --shadow: 0 18px 40px rgba(31, 41, 55, 0.12);
         --shadow-img: 0 16px 30px rgba(31, 41, 55, 0.08);
       }
@@ -53,6 +55,8 @@
           --accent-dark: #83c092;
           --border: #475258;
           --border-rgb: 71, 82, 88;
+          --link: #7fbbb3;
+          --link-hover: #83c092;
           --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
           --shadow-img: 0 18px 30px rgba(0, 0, 0, 0.35);
         }
@@ -72,6 +76,8 @@
         --accent-dark: #83c092;
         --border: #475258;
         --border-rgb: 71, 82, 88;
+        --link: #7fbbb3;
+        --link-hover: #83c092;
         --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
         --shadow-img: 0 18px 30px rgba(0, 0, 0, 0.35);
       }
@@ -106,6 +112,15 @@
       a:hover {
         color: var(--accent-dark);
         text-decoration: underline;
+      }
+
+      p a {
+        color: var(--link);
+      }
+
+      p a:hover,
+      p a:focus-visible {
+        color: var(--link-hover);
       }
 
       img {
@@ -277,6 +292,14 @@
         gap: 32px;
       }
 
+      #about,
+      #projects,
+      #contact {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
       .section-card {
         background: var(--surface);
         border-radius: 28px;
@@ -365,6 +388,18 @@
         object-fit: cover;
       }
 
+      .project-figure {
+        margin: 0;
+      }
+
+      .project-figure figcaption {
+        margin-top: 10px;
+        font-size: 0.85rem;
+        font-style: italic;
+        color: var(--muted);
+        text-align: center;
+      }
+
       .project-content {
         align-items: center;
       }
@@ -450,7 +485,8 @@
         gap: 8px;
       }
 
-      .section-card .section-subtitle {
+      .section-card .section-subtitle,
+      .section-block .section-subtitle {
         margin-top: 0;
       }
 
@@ -679,11 +715,16 @@
                 <a href="https://github.com/glengerbush/PEA">GitHub.</a>
                 </p>
               </div>
-              <a href="https://github.com/glengerbush/PEA"><img
-                src="./assets/PEA.webp"
-                alt="Personal Email Archive light and dark mode screenshots"
-                loading="lazy"
-              /></a>
+              <figure class="project-figure">
+                <a href="https://github.com/glengerbush/PEA"><img
+                  src="./assets/PEA.webp"
+                  alt="Personal Email Archive light and dark mode screenshots"
+                  loading="lazy"
+                /></a>
+                <figcaption>
+                  Dedicated to Mom, who had ~40k emails in her inbox that never fully synced with any email client.
+                </figcaption>
+              </figure>
             </div>
           </div>
           <div class="project-card">
@@ -811,7 +852,7 @@
       </section>
 
       <section id="experience">
-        <div class="section-card">
+        <div class="section-block">
           <div class="section-header">
             <span class="eyebrow">Experience</span>
             <h2>Relevant work history.</h2>
@@ -1073,7 +1114,7 @@
           </div>
         </div>
 
-        <div class="section-card">
+        <div class="section-block">
           <div class="section-subtitle">
             <h3>Skills</h3>
           </div>
@@ -1147,7 +1188,7 @@
           </div>
         </div>
 
-        <div class="section-card">
+        <div class="section-block">
           <div class="section-subtitle">
             <h3>Education</h3>
             <p>
